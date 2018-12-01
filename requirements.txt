@@ -1,0 +1,8 @@
+tox==3.5.3
+coverage==4.5.2
+mypy==0.641
+pylint==2.2.2
+pytest==4.0.1
+pytest-cov==2.6.0
+pytest-mypy==0.3.2
+pytest-pylint==0.13.0

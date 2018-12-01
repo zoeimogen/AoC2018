@@ -1,0 +1,10 @@
+*.pyc
+.DS_Store
+.mypy_cache
+htmlcov
+.coverage
+.tox
+*.egg-info
+results.txt
+inputs
+prof
