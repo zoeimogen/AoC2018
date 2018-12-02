@@ -27,4 +27,4 @@ class TestUM(unittest.TestCase):
         _ = self
 
         with open('results.txt', 'w') as f:
-            f.write("Day 01: %d, %d" % day01.run())
+            f.write("Day 01: %d, %d\n" % day01.run())
