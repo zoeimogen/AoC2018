@@ -8,6 +8,5 @@ setup(
     name="Advent of Code 2018 solutions",
     author="Zoë O'Connell",
     author_email="zoe@complicity.co.uk",
-    packages=[],
-    install_requires=[]
+    install_requires=['numpy']
 )
