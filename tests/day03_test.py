@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''Advent of Code 2018 Day 2 tests'''
+'''Advent of Code 2018 Day 3 tests'''
 import unittest
 import os
 import sys

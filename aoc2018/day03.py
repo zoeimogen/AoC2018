@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''Advent of Code 2018 Day 2 solution'''
+'''Advent of Code 2018 Day 3 solution'''
 from typing import Tuple, List
 import re
 import numpy
