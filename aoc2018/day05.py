@@ -4,7 +4,7 @@ from string import ascii_lowercase
 from typing import Tuple
 
 def runpart1(inputs: str) -> int:
-    '''Solve part 1'''
+    '''Solve part 1. This isn't the most elegant way, but it's the quickest found so far'''
     i = 0
 
     # Output
@@ -18,7 +18,7 @@ def runpart1(inputs: str) -> int:
         if inputs[i] != inputs[i+1] and inputs[i].lower() == inputs[i+1].lower():
             i += 2
             try:
-                # It's possible the last character on the output buffer reacts with out next
+                # It's possible the last character on the output buffer reacts with our next
                 # character. If so, skip the next character and remove the existing one from
                 # the output buffer.
                 while inputs[i] != o[-1:] and inputs[i].lower() == o[-1:].lower():
@@ -40,20 +40,15 @@ def runpart1(inputs: str) -> int:
 
     return len(o)
 
+def removeletter(inputs: str, l: str) -> str:
+    '''Remove all upper and lower case occurances of letter l from s'''
+    s = inputs.replace(l, '')
+    return s.replace(l.upper(), '')
+
 def runpart2(inputs: str) -> int:
     '''Solve part 2'''
-    m = len(inputs)
-
-    # Remove every character a-z in turn, and run the part 1 solution. Keep track of our best
-    # (i.e. lowest) score in m as we go along.
-    for c in ascii_lowercase:
-        s = inputs.replace(c, '')
-        s = s.replace(c.upper(), '')
-        result = runpart1(s)
-        if result < m:
-            m = result
-
-    return m
+    # Remove every character a-z in turn, and run the part 1 solution. Return best (lowest) score
+    return min([runpart1(removeletter(inputs, c)) for c in ascii_lowercase])
 
 def run() -> Tuple[int, int]:
     '''Main'''
