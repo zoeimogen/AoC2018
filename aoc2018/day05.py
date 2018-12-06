@@ -41,7 +41,7 @@ def runpart1(inputs: str) -> int:
     return len(o)
 
 def removeletter(inputs: str, l: str) -> str:
-    '''Remove all upper and lower case occurances of letter l from s'''
+    '''Remove all upper and lower case occurences of letter l from s'''
     s = inputs.replace(l, '')
     return s.replace(l.upper(), '')
 
