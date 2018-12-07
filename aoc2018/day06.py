@@ -5,7 +5,7 @@ import numpy
 Coords = Tuple[int, ...]
 
 def taxicabdistance(a: Coords, b: Coords) -> int:
-    ''' Calculate Taxi Cab (Manhattan) distance between two pairs of coordinates'''
+    '''Calculate Taxi Cab (Manhattan) distance between two pairs of coordinates'''
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 def runsolution(inputs: List[Coords], threshold: int) -> Tuple[int, int]:
@@ -32,7 +32,8 @@ def runsolution(inputs: List[Coords], threshold: int) -> Tuple[int, int]:
             if sum(distances) < threshold:
                 totalsafe += 1
 
-    # Go round the edge of the grid, anything closest points we find have infinite coverage
+    # Go round the edge of the grid, any closest points we find have infinite coverage and should
+    # be ignored
     infinites = set()
     for x in range(minx - 25, maxx + 25):
         distances = [taxicabdistance(z, (x, miny-25)) for z in inputs]
