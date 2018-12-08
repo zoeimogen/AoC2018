@@ -9,7 +9,7 @@ from aoc2018 import day06 # pylint: disable=wrong-import-position
 
 class TestUM(unittest.TestCase):
     '''Unit Tests'''
-    def test_day05(self) -> None:
+    def test_day06(self) -> None:
         '''Test solution'''
         inputs: List[Tuple[int, ...]] = [(1, 1), (1, 6), (8, 3), (3, 4), (5, 5), (8, 9)]
         (part1, part2) = day06.runsolution(inputs, 32)
