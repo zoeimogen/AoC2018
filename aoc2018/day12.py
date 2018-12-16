@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''Advent of Code 2018 Day 10 solution'''
+'''Advent of Code 2018 Day 12 solution'''
 import re
 from typing import TextIO, Any, Dict
 Input = Dict[str, Any]
