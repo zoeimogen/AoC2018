@@ -3,6 +3,8 @@
 import re
 import copy
 from typing import Tuple, List, Dict, Callable
+from aoc2018.elfcode import ops, noop
+
 State = List[int]
 Inputs = Tuple[int, int, int]
 Instruction = Tuple[int, int, int, int]
@@ -10,93 +12,10 @@ InputData = List[Tuple[State, Instruction, State]]
 Program = List[Instruction]
 Op = Callable[[State, Inputs], None]
 
-def noop(_state: State, _inputs: Inputs) -> None:
-    '''Dummy placeholder'''
-
-def addr(state: State, inputs: Inputs) -> None:
-    '''addr (add register) stores into register C the result of adding register A and register B.'''
-    state[inputs[2]] = state[inputs[0]] + state[inputs[1]]
-
-def addi(state: State, inputs: Inputs) -> None:
-    '''addi (add immediate) stores into register C the result of adding register A and value B.'''
-    state[inputs[2]] = state[inputs[0]] + inputs[1]
-
-def mulr(state: State, inputs: Inputs) -> None:
-    ''''mulr (multiply register) stores into register C the result of multiplying register A and
-        register B.'''
-    state[inputs[2]] = state[inputs[0]] * state[inputs[1]]
-
-def muli(state: State, inputs: Inputs) -> None:
-    '''muli (multiply immediate) stores into register C the result of multiplying register A and
-       value B.'''
-    state[inputs[2]] = state[inputs[0]] * inputs[1]
-
-def banr(state: State, inputs: Inputs) -> None:
-    '''banr (bitwise AND register) stores into register C the result of the bitwise AND of register
-       A and register B.'''
-    state[inputs[2]] = state[inputs[0]] & state[inputs[1]]
-
-def bani(state: State, inputs: Inputs) -> None:
-    '''bani (bitwise AND immediate) stores into register C the result of the bitwise AND of
-       register A and value B.'''
-    state[inputs[2]] = state[inputs[0]] & inputs[1]
-
-def borr(state: State, inputs: Inputs) -> None:
-    '''borr (bitwise OR register) stores into register C the result of the bitwise OR of register
-       A and register B.'''
-    state[inputs[2]] = state[inputs[0]] | state[inputs[1]]
-
-def bori(state: State, inputs: Inputs) -> None:
-    '''bori (bitwise OR immediate) stores into register C the result of the bitwise OR of register
-       A and value B.'''
-    state[inputs[2]] = state[inputs[0]] | inputs[1]
-
-def setr(state: State, inputs: Inputs) -> None:
-    '''setr (set register) copies the contents of register A into register C.
-       (Input B is ignored.)'''
-    state[inputs[2]] = state[inputs[0]]
-
-def seti(state: State, inputs: Inputs) -> None:
-    '''seti (set immediate) stores value A into register C. (Input B is ignored.)'''
-    state[inputs[2]] = inputs[0]
-
-def gtir(state: State, inputs: Inputs) -> None:
-    '''gtir (greater-than immediate/register) sets register C to 1 if value A is greater than
-       register B. Otherwise, register C is set to 0.'''
-    state[inputs[2]] = int(inputs[0] > state[inputs[1]])
-
-def gtri(state: State, inputs: Inputs) -> None:
-    '''gtri (greater-than register/immediate) sets register C to 1 if register A is greater than
-       value B. Otherwise, register C is set to 0.'''
-    state[inputs[2]] = int(state[inputs[0]] > inputs[1])
-
-def gtrr(state: State, inputs: Inputs) -> None:
-    '''gtrr (greater-than register/register) sets register C to 1 if register A is greater than
-       register B. Otherwise, register C is set to 0.'''
-    state[inputs[2]] = int(state[inputs[0]] > state[inputs[1]])
-
-def eqir(state: State, inputs: Inputs) -> None:
-    '''eqir (equal immediate/register) sets register C to 1 if value A is equal to register B.
-       Otherwise, register C is set to 0.'''
-    state[inputs[2]] = int(inputs[0] == state[inputs[1]])
-
-def eqri(state: State, inputs: Inputs) -> None:
-    '''eqri (equal register/immediate) sets register C to 1 if register A is equal to value B.
-       Otherwise, register C is set to 0.'''
-    state[inputs[2]] = int(state[inputs[0]] == inputs[1])
-
-def eqrr(state: State, inputs: Inputs) -> None:
-    '''eqrr (equal register/register) sets register C to 1 if register A is equal to register B.
-       Otherwise, register C is set to 0.'''
-    state[inputs[2]] = int(state[inputs[0]] == state[inputs[1]])
-
-opcodes: List[Op] = [addr, addi, mulr, muli, banr, bani, borr, bori,
-                     setr, seti, gtir, gtri, gtrr, eqir, eqri, eqrr]
-
 def testmatch(i: Tuple[State, Instruction, State]) -> int:
     '''Test to see how many matches exist for an opcode'''
     matches = 0
-    for o in opcodes:
+    for o in ops:
         state: State = list(i[0])
         o(state, i[1][1:])
         if state == i[2]:
@@ -109,7 +28,7 @@ def runpart1(inputs: InputData) -> int:
 
 def runpart2(inputs: InputData, inputspart2: Program) -> int:
     '''Run part 2 solution'''
-    possibilities: List[List[Op]] = [copy.copy(opcodes) for _ in range(16)]
+    possibilities: List[List[Op]] = [copy.copy(ops) for _ in range(16)]
 
     for i in inputs:
         # Test an opcode to see if it matches the input/output pair
@@ -121,7 +40,7 @@ def runpart2(inputs: InputData, inputspart2: Program) -> int:
                 p.remove(o)
 
     inversep: Dict[Op, List[int]] = dict()
-    for o in opcodes:
+    for o in ops:
         # Create a reverse map of possible opcode->function mappings
         inversep[o] = []
         for poss in enumerate(possibilities):

@@ -21,10 +21,3 @@ class TestUM(unittest.TestCase):
         self.assertEqual(day01.runpart2([3, 3, 4, -2, -4]), 10)
         self.assertEqual(day01.runpart2([-6, 3, 8, 5, -6]), 5)
         self.assertEqual(day01.runpart2([7, 7, -2, -7, -4]), 14)
-
-    def test_day01run(self) -> None:
-        '''Find the actual solution'''
-        _ = self
-
-        with open('results.txt', 'w') as f:
-            f.write("Day 01: %d, %d\n" % day01.run())

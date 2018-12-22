@@ -18,10 +18,3 @@ class TestUM(unittest.TestCase):
         with open('inputs/day10testresult.txt', 'r') as f:
             textresult = f.read()
         self.assertEqual(text, textresult)
-
-    def test_day10run(self) -> None:
-        '''Find the actual solution'''
-        _ = self
-
-        with open('results.txt', 'a') as f:
-            f.write("Day 10: %d\n%s" % (day10.run()))

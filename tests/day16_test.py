@@ -12,10 +12,3 @@ class TestUM(unittest.TestCase):
         '''Test part 1 helper function'''
         inputs = ([3, 2, 1, 1], (9, 2, 1, 2), [3, 2, 2, 1])
         self.assertEqual(day16.testmatch(inputs), 3)
-
-    def test_day16run(self) -> None:
-        '''Find the actual solution'''
-        _ = self
-
-        with open('results.txt', 'a') as f:
-            f.write("Day 16: %d, %d\n" % day16.run())
