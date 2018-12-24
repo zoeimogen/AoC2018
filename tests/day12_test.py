@@ -12,4 +12,4 @@ class TestUM(unittest.TestCase):
         '''Test part 1 solution'''
         with open('tests/day12test.txt', 'r') as f:
             inputs = day12.readinputdata(f)
-        self.assertEqual(day12.runsolution(inputs, 20), 325)
+        self.assertEqual(day12.runpart1(inputs, 20), 325)

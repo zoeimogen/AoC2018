@@ -1,28 +1,37 @@
 #!/usr/bin/python3
 '''Advent of Code 2018 Day 21 solution'''
+# pylint: disable=wrong-import-position,no-name-in-module,import-error
 
-from aoc2018.elfcode import readprogram, Program
+from typing import Generator, Tuple, List
+import pyximport
+pyximport.install(language_level=3)
+from aoc2018.elfcode import readprogram, Program, State
+from aoc2018.day21cython import runprogram
 
-def runprogram(program: Program) -> int:
+def runpart1(program: Program) -> int:
     '''Run program, but break out at instruction 28 and return the value we're trying to
        compare with the input'''
-    state = [0, 0, 0, 0, 0, 0]
-    ip = 0
+    g: Generator[State, None, None] = runprogram(program)
+    result: int = next(g)[program[28][2]]
+    return result
+
+def runpart2(program: Program) -> int:
+    '''Run program, stopping when the instruction 28 break point repeats'''
+    numbers: List[int] = []
+    g: Generator[State, None, None] = runprogram(program)
 
     while True:
-        state[program[ip][1]] = ip
-        program[ip][0](state, program[ip][2:])
-        ip = state[program[ip][1]] + 1
-        if ip == 28:
-            return state[program[ip][2]]
+        state = next(g)
+        if state[program[28][2]] in numbers:
+            return numbers[-1]
+        numbers.append(state[program[28][2]])
 
-def run() -> int:
+def run() -> Tuple[int, int]:
     '''Main'''
     with open('inputs/day21.txt', 'r') as f:
         inputs = readprogram(f)
 
-    return runprogram(inputs)
-    # Part 2 requires manual pattern finding in the program registers.
+    return(runpart1(inputs), runpart2(inputs))
 
 if __name__ == '__main__':
     print(run())

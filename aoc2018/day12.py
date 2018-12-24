@@ -1,33 +1,58 @@
 #!/usr/bin/python3
 '''Advent of Code 2018 Day 12 solution'''
 import re
-from typing import TextIO, Any, Dict
+import copy
+from typing import TextIO, Any, Dict, Tuple, List
+from . import sequence
+
 Input = Dict[str, Any]
 
-def runsolution(inputs: Input, generations: int, verbose: bool = False) -> int:
-    '''Solve part 1. Part 2 solved by observing pattern in score output'''
-    for g in range(generations):
-        state = '....' + inputs['state'] + '....'
-        output = ''
-        for i in range(len(inputs['state'])+4):
-            x = state[i:i+5]
-            if x in inputs['spread']:
-                output += inputs['spread'][x]
-            else:
-                output += '.'
+def rungeneration(inputs: Input) -> None:
+    '''Run a single generation'''
+    state = '....' + inputs['state'] + '....'
+    output = ''
+    for i in range(len(inputs['state'])+4):
+        x = state[i:i+5]
+        if x in inputs['spread']:
+            output += inputs['spread'][x]
+        else:
+            output += '.'
 
-        inputs['state'] = output
+    inputs['state'] = output
 
-        i = 0-((g+1)*2)
-        score = 0
-        for l in inputs['state']:
-            if l == '#':
-                score += i
-            i += 1
-        if verbose:
-            print(g+1, score)
+def getscore(inputs: Input, g: int) -> int:
+    '''Get the current score'''
+    # i is the offset needed to calculate the pot position of slot 0 as it expands leftwards
+    # each generation.
+    i = 0-((g+1)*2)
+    score = 0
+    for l in inputs['state']:
+        if l == '#':
+            score += i
+        i += 1
 
     return score
+
+def runpart1(inputs: Input, generations: int) -> int:
+    '''Solve part 1'''
+    for g in range(generations):
+        rungeneration(inputs)
+
+    return getscore(inputs, g)
+
+def runpart2(inputs: Input, generations: int) -> int:
+    '''Solve part 2 by spotting the pattern and predicting the result'''
+    g = 1
+    scorediffs: List[int] = []
+    scores = [0]
+    while True:
+        rungeneration(inputs)
+        score = getscore(inputs, g)
+        scorediffs.append(score - scores[-1])
+        scores.append(score)
+        if sequence.checksequence(scorediffs):
+            return sequence.predictincrementing(scorediffs, generations)
+        g += 1
 
 def readinputdata(f: TextIO) -> Input:
     '''Read input data from the given file handle into inputs'''
@@ -45,12 +70,13 @@ def readinputdata(f: TextIO) -> Input:
                 inputs['spread'][z.group(1)] = z.group(2)
     return inputs
 
-def run() -> int:
+def run() -> Tuple[int, int]:
     '''Main'''
     with open('inputs/day12.txt', 'r') as f:
         inputs = readinputdata(f)
 
-    return runsolution(inputs, 20)
+    input2 = copy.copy(inputs)
+    return(runpart1(inputs, 20), runpart2(input2, 50000000000))
 
 if __name__ == '__main__':
-    print("%d\n" % (run()))
+    print(run())

@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 '''Advent of Code 2018 Day 16 solution'''
+# pylint: disable=wrong-import-position,no-name-in-module,import-error
+
 import re
 import copy
 from typing import Tuple, List, Dict, Callable
+import pyximport
+pyximport.install(language_level=3)
 from aoc2018.elfcode import ops, noop
 
 State = List[int]
