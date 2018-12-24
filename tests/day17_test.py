@@ -10,7 +10,7 @@ class TestUM(unittest.TestCase):
     '''Tests'''
     def test_day17(self) -> None:
         '''Test part 1 helper function'''
-        with open('inputs/day17test.txt', 'r') as f:
+        with open('tests/day17test.txt', 'r') as f:
             inputs = day17.readinputdata(f)
 
         self.assertEqual(day17.runsolution(inputs), (57, 29))

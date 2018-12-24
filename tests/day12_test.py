@@ -10,6 +10,6 @@ class TestUM(unittest.TestCase):
     '''Unit Tests'''
     def test_day11part1(self) -> None:
         '''Test part 1 solution'''
-        with open('inputs/day12test.txt', 'r') as f:
+        with open('tests/day12test.txt', 'r') as f:
             inputs = day12.readinputdata(f)
         self.assertEqual(day12.runsolution(inputs, 20), 325)

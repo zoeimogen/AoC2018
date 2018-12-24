@@ -28,7 +28,7 @@ def runpart2(inputs: Input) -> int:
     # Nanobots in range, using distance from the origin (Our location) as tie break. We cast the
     # net very wide (searching current location +/- 10,000 initially) and gradually narrow that
     # down until we find the best point. Large initial net seems to be the key to not getting
-    # caught in a a local maximum, but the numbers might neet tweaking for other input data sets.
+    # caught in a local maximum, but the numbers might neet tweaking for other input data sets.
     x = int(median([a[0] for a in inputs]))
     y = int(median([a[1] for a in inputs]))
     z = int(median([a[2] for a in inputs]))
