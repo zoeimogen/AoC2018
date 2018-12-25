@@ -12,7 +12,7 @@ print(' in %.2fs' % (timeit(r'print("Day 10: %d\n%s" % aoc2018.day10.run(), end=
                             'import aoc2018.day10',
                             number=1)))
 
-for i in range(11, 25):
+for i in range(11, 26):
     print(' in %.2fs' % (timeit('print("Day %d: ", aoc2018.day%02d.run(), end="")' % (i, i),
                                 'import aoc2018.day%02d' % (i),
                                 number=1)))
